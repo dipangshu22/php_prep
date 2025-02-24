@@ -1,6 +1,6 @@
 <?php
 
-// $dim=array(
+// $dim2=array(
 //     array(1,3,4,11,13),
 //     array(44,77,88,99),
 //     array(55,44,8,9)
