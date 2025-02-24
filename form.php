@@ -66,11 +66,29 @@
 if($_SERVER['REQUEST_METHOD'] =='POST'){
   $email=$_POST['email'];
   $pass=$_POST['pass'];
+  
+
+}
+$servername="localhost";
+$username="root";
+$password="";
+$database="account";
+$conn=mysqli_connect($servername,$username,$password,$database);
+
+
+$sql="INSERT INTO `info` (`slno`, `email`, `password`) VALUES (NULL, '$email', '$pass')";
+
+$data=mysqli_query($conn,$sql);
+
+if($data){
   echo '<div class="alert alert-success" role="alert">
   "your email '  .$email.  ' and password '.  $pass. ' is submitted"
 </div>';
-
-
+}
+else{
+  echo '<div class="alert alert-danger" role="alert">
+  "your email '  .$email.  ' and password '.  $pass. ' is submitted"
+</div>';
 }
 
 ?>
