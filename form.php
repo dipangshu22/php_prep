@@ -60,6 +60,7 @@
 </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
 <?php
@@ -78,17 +79,16 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 
 $sql="INSERT INTO `info` (`slno`, `email`, `password`) VALUES (NULL, '$email', '$pass')";
 
-$data=mysqli_query($conn,$sql);
+ $data=mysqli_query($conn,$sql);
 
-if($data){
-  echo '<div class="alert alert-success" role="alert">
-  "your email '  .$email.  ' and password '.  $pass. ' is submitted"
+ if($data){
+  echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+  "<strong>Great!</strong> successfully '.$email.'inserted!!"
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
-}
-else{
-  echo '<div class="alert alert-danger" role="alert">
-  "your email '  .$email.  ' and password '.  $pass. ' is submitted"
-</div>';
-}
+ }
+ else{
+  echo"failed";
+ }
 
 ?>
