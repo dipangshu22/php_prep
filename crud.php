@@ -1,16 +1,15 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] =='POST'){
-    $title=$_POST['title'];
-    $description=$_POST['description'];  
-  }
-
-
 $servername="localhost";
 $username="root";
 $password="";
 $database="crud";
+error_reporting(E_ERROR | E_PARSE);
 
-$conn=mysqli_connect($servername,$username,$password,$database);
+if($_SERVER['REQUEST_METHOD'] =='POST'){
+  $title=$_POST['title'];
+  $description=$_POST['description'];  
+  
+ $conn=mysqli_connect($servername,$username,$password,$database);
 $sql="INSERT INTO `notes` (`slno`, `notes`, `description`, `date`) VALUES (NULL, '$title', '$description', current_timestamp())";
 $data=mysqli_query($conn,$sql);
 
@@ -18,8 +17,7 @@ $data=mysqli_query($conn,$sql);
 $select="SELECT * FROM `notes`";
 $view=mysqli_query($conn,$select);
 $num= mysqli_num_rows($view);
-        
-    
+}
 ?>
 
 
@@ -29,12 +27,46 @@ $num= mysqli_num_rows($view);
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
 crossorigin="anonymous">
 <link rel="stylesheet" href="//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" >
-<meta charset="UTF-8">
-
-
+<meta charset="UTF-8">,
 <title>Document</title>
+
 </head>
 <body>
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editmodal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Record</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="http://localhost/prep/crud.php?#" method="post">
+  <div class="mb-4">
+    <label for="exampleInputEmail1" class="form-label">Add title</label>
+    <input type="text" class="form-control" name="titleedit" id="titleedit" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text">add your title here</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Description</label>
+    <input type="textarea" class="form-control" name="descriptionedit" id="descriptionedit">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">add note</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="navbar">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
@@ -74,7 +106,7 @@ crossorigin="anonymous">
                     <th scope="col">Sl No</th>
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Date </th>
                 </tr>
             </thead>
             <tbody>
@@ -86,7 +118,7 @@ crossorigin="anonymous">
                             <th scope='row'>$no</th>
                             <td>" . $row['notes'] . "</td>
                             <td>" . $row['description'] . "</td>
-                            <td>" . $row['date'] . "</td>
+                            <td>" . $row['date'] .'<button type="button"  class="btn btn-secondary edit">edit</button>'.'<a class="delete" href="">delete</a>'."</td>
                         </tr>";
                         $no++;
                     }
@@ -106,6 +138,23 @@ crossorigin="anonymous">
             $('#myTable').DataTable();
         });
     </script>
+    <script>
+edits=document.getElementsByClassName('edit');
+Array.from(edits).forEach((element)=>{
+  element.addEventListener("click",(e)=>{
+    console.log("edit",);
+    tr=e.target.parentNode.parentNode;
+    title=tr.getElementsByTagName("td")[0].innerText;
+    description=tr.getElementsByTagName("td")[1].innerText;
+    console.log(title,description);
+    titleedit.value=title;
+    descriptionedit.value=description;
+    $('#editmodal').modal('toggle');
+
+  })
+
+})
+</script>
 </body>
 </html>
 
