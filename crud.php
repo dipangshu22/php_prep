@@ -7,11 +7,16 @@ error_reporting(E_ERROR | E_PARSE);
 
 if($_SERVER['REQUEST_METHOD'] =='POST'){
   $title=$_POST['title'];
-  $description=$_POST['description'];  
+  $description=$_POST['description'];
+  $titleedit=$_POST['titleedit'];
+  $descriptionedit=$_POST['descriptionedit'];
   
- $conn=mysqli_connect($servername,$username,$password,$database);
+ $conn=mysqli_connect($servername,$username,$password,$database,$titleedit,$descriptionedit);
 $sql="INSERT INTO `notes` (`slno`, `notes`, `description`, `date`) VALUES (NULL, '$title', '$description', current_timestamp())";
 $data=mysqli_query($conn,$sql);
+
+$newsql="UPDATE `notes` SET `notes` = '$titleedit', `description` = '$descriptionedit' WHERE `notes`.`slno` =null";
+$newdata=mysqli_query($conn,$newsql);
 
 ///for displaying data
 $select="SELECT * FROM `notes`";
